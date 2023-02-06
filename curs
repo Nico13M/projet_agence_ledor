@@ -1,0 +1,1228 @@
+Présentation du second projet
+Objectifs
+
+Nous allons faire un second projet qui va être une mise en pratique réaliste des boites flexibles ou flexbox. 
+
+Ce chapitre est très important car avec les grilles, les boîtes flexibles sont les deux modules de CSS modernes utilisés pour les mises en page.
+Création du projet
+
+Commencez par créer un dossier agence-ledor où nous placerons notre projet. 
+
+Ouvrez ensuite le dossier dans VS Code.
+
+Créez ensuite un fichier index.html et un dossier css.
+
+Dans le dossier css créez un fichier style.css et un fichier style.mobile.css. 
+
+Mise en place de l'index.html
+
+Dans notre index.html, nous générons le template avec ! en utilisant Emmet.
+
+Ensuite nous chargeons la librairie d'icônes Font Awesome et nous ajoutons deux polices depuis Google Font Api. 
+
+Nous importons deux feuilles de style. La première sera tout le temps chargée et la seconde ne sera chargée que sur les écrans qui ont une largeur maximale de 500px (cela ciblera donc les mobiles), et ce grâce à une requête média. 
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      media="only screen and (max-width: 500px)"
+      href="css/style.mobile.css"
+    />
+    <link href="https://fonts.googleapis.com/css?family=Long+Cang|Montserrat:300,400,700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/97bb762bba.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Agence Ledor</title>
+    <style></style>
+  </head>
+  <body>
+    <div class="container"></div>
+  </body>
+</html>
+
+Mise en place des règles de base dans style.css
+
+Nous allons définir quelques règles de base dans css/style.css : 
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: "Montserrat", sans-serif;
+  }
+  
+  p {
+    margin-bottom: 0.8rem;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin-bottom: 1rem;
+  }
+  
+  a {
+    color: #333;
+    text-decoration: none;
+  }
+
+Nous enlevons toutes les marges et les remplissages par défaut. Nous utilisons le box-sizing: border-box pour faciliter les calculs.
+
+Nous définissons comme police de base Montserrat en prévoyant une famille de police de fallback si la première police ne charge pas. 
+
+Nous définissons des marges de base aussi bien pour nos paragraphes que pour tous nos titres. Nous fixons tout en rem pour que ce soit plus simple de raisonner sur la taille des éléments.
+
+Enfin, nous enlevons les règles CSS appliquées par défaut sur les liens. 
+
+Mise en place du header
+Modification de l'index.html
+
+Commençons par la structure HTML du header : 
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      media="only screen and (max-width: 500px)"
+      href="css/style.mobile.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Long+Cang|Montserrat:300,400,700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/97bb762bba.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Agence Ledor</title>
+    <style></style>
+  </head>
+  <body>
+    <div class="vp-container">
+      <header>
+        <h2 class="vp-logo">
+          <i class="fa-solid fa-crown"></i>
+          <a href="#">Ledor</a>
+        </h2>
+        <ul>
+          <li><a href="#">Nos offres</a></li>
+          <li><a href="#">Notre équipe</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </header>
+      <section class="vp"></section>
+    </div>
+  </body>
+</html>
+
+Nous avons un conteneur global pour toute la page sur lequel nous plaçons la classe vp-container.
+
+A L'intérieur nous avons deux enfants : un élément header et un élément section.
+
+Nous allons nous intéresser à la partie header. 
+
+Nous y plaçons un titre de niveau h2 qui va contenir une icône et le nom de l'agence contenu dans un lien.
+
+Nous avons ensuite une liste non ordonnées de liens.
+Modification de style.css
+
+Il nous faut maintenant nous occuper de la mise en page CSS : 
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: "Montserrat", sans-serif;
+  }
+  
+  p {
+    margin-bottom: 0.8rem;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin-bottom: 1rem;
+  }
+  
+  a {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  /* vp + header */
+  
+  .vp-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  header {
+    padding: 1rem 2rem;
+    background: #333;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+  }
+  
+  .vp-logo {
+    margin-bottom: 0;
+    font-family: "Long Cang", cursive;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .vp-logo i {
+    color: #f1c40f;
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+  }
+  
+  .vp-logo a {
+    font-size: 3rem;
+  }
+  
+  header ul {
+    display: flex;
+    flex-flow: row nowrap;
+    list-style: none;
+  }
+  
+  header ul li {
+    padding: 1rem;
+  }
+  
+  header ul li a:hover {
+    color: #f1c40f;
+  }
+  
+  header a {
+    color: white;
+  }
+  
+  .vp {
+    flex: auto;
+  }
+
+Nous allons détailler certaines règles pour bien comprendre.
+
+Commençons par le conteneur :
+
+.vp-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+Il a une taille minimale de 100vh ce qui signifie qu'il a une hauteur au minimum de la hauteur de la zone d'affichage du navigateur mais qu'il peut avoir une taille supérieure si son contenu est plus haut. 
+
+Nous le disposons en flex ce qui en fait un conteneur flexible pour nos éléments header et section.
+
+Nous fixons la direction à column car nous souhaitons que le header soit au-dessus de l'élément pour le contenu. 
+
+header {
+    padding: 1rem 2rem;
+    background: #333;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+  }
+
+Pour le header nous le définissons également comme un conteneur flexible pour ses éléments enfants h2 et ul.
+
+Nous fixons la direction à row car nous voulons que le titre et la liste non ordonnée de liens soit sur une ligne. 
+
+Pour le header nous le définissons également comme un conteneur flexible pour ses éléments enfants h2 et ul.
+
+Nous fixons la direction à row car nous voulons que le titre et la liste non ordonnée de liens soit sur une ligne. 
+
+Nous utilisons justify-content: space-between; car nous voulons que tout l'espace disponible sur l'axe principal (row) soit mis entre les éléments flexibles, c'est-à-dire entre h2 et ul. 
+
+
+.vp-logo {
+    margin-bottom: 0;
+    font-family: "Long Cang", cursive;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+}
+
+Pour notre titre h2, nous en faisons également un conteneur flexible pour les éléments enfants i et a.
+
+Nous fixons la direction à row car nous voulons qu'ils soient côte à côte. 
+
+Nous centrons sur l'axe principal horizontal avec justify-content: center;. Même si ce n'est pas ici nécessaire car le conteneur flexible h2 prend la taille de son contenu.
+
+Nous centrons sur l'axe secondaire vertical avec align-items: center;. 
+
+header ul {
+    display: flex;
+    flex-flow: row nowrap;
+    list-style: none;
+  }
+
+Nous disposons également notre liste non ordonnée ul en conteneur flexible pour ses éléments enfants li.
+
+Nous les alignons avec une direction à row et nous les interdisons d'aller à la ligne avec nowrap.
+  
+Nous enlevons enfin les points de décoration présent sur les list items par défaut. 
+
+
+Mise en place du contenu
+Modification de l'index.html
+
+Commençons par la structure HTML : 
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      media="only screen and (max-width: 500px)"
+      href="css/style.mobile.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Long+Cang|Montserrat:300,400,700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/97bb762bba.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Agence Ledor</title>
+    <style></style>
+  </head>
+  <body>
+    <div class="vp-container">
+      <header>
+        <h2 class="vp-logo">
+          <i class="fa-solid fa-crown"></i>
+          <a href="#">Ledor</a>
+        </h2>
+        <ul>
+          <li><a href="#">Nos offres</a></li>
+          <li><a href="#">Notre équipe</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </header>
+      <section class="vp">
+        <div class="vp-content">
+          <h1>
+            Un <strong>immobilier</strong> d'exception pour des clients
+            d'exception
+          </h1>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi
+            expedita nostrum voluptate facere veniam quam porro dolor non cumque
+            optio.
+          </p>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
+
+Nous ajoutons un élément section dans lequel nous allons placer notre contenu principal.
+Modification de style.css
+
+Il nous faut maintenant nous occuper de la mise en page CSS :
+
+/* ... */
+strong {
+  color: #f1c40f;
+  font-weight: 400;
+}
+/* ... */
+header {
+  padding: 1rem 2rem;
+  background: #333;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  line-height: 1.8rem;
+}
+/* ... */
+.vp {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: url(https://dyma-images.s3.fr-par.scw.cloud/html-css/projects/project2/frame.jpg)
+    center center/cover;
+}
+
+.vp-content {
+  max-width: 800px;
+  text-align: center;
+  color: white;
+}
+
+.vp-content h1 {
+  font-size: 3.2rem;
+  margin-bottom: 2rem;
+}
+
+.vp-content p {
+  font-size: 1.8rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+  line-height: 2rem;
+}
+
+Nous allons brièvement expliquer les modifications que nous avons effectuées. 
+
+strong {
+    color: #f1c40f;
+    font-weight: 400;
+  }
+
+Nous utilisons des règles spécifiques pour nos éléments strong : nous réduisons la graisse appliquée par défaut mais nous modifions la couleur. 
+
+header {
+    padding: 1rem 2rem;
+    background: #333;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    line-height: 1.8rem;
+}
+
+  Nous avons ajouté une line-height pour tous les éléments du header afin qu'ils soient bien alignés verticalement. 
+
+.vp {
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: url(https://dyma-images.s3.fr-par.scw.cloud/html-css/projects/project2/frame.jpg)
+      center center/cover;
+}
+
+
+.
+
+
+  Pour la classe sur notre élément section, nous en faisons également un conteneur flexible en fixant une direction column. Nous le faisons pour la logique car nous voulons que l'axe principal soit vertical et non horizontal. Mais ici cela n'aurait rien changé de laisser en row car nous fixons l'alignement des éléments sur les deux axes. 
+
+  En effet, justify-content permet de gérer l'alignement sur l'axe principal et align-items sur l'axe secondaire.
+
+Ici, nous centrons l'élément flexible <div class="vp-content"> sur les deux axes : verticalement et horizontalement. 
+
+Enfin, nous ajoutons une image en arrière-plan que nous centrons sur les deux axes et dont nous fixons la taille à cover pour recouvrir toute la div. 
+
+.vp-content {
+    max-width: 800px;
+    text-align: center;
+    color: white;
+}
+
+Nous fixons la largeur de la div à une largeur maximale se 800px pour que tout ne soit pas sur une ligne sur les grands écrans. Nous centrons les textes et les mettons en blanc.
+
+Mise en place de la seconde partie du contenu
+Modification de l'index.html
+
+Commençons par la structure HTML.
+
+Nous ajoutons une seconde section en dessous de la première, à l'intérieur de l'élément div class="vp-container" : 
+
+<!-- ... -->
+<section class="offer">
+    <div class="container">
+      <h2 class="title">Nos dernieres offres</h2>
+      <ul class="offer-list">
+        <li class="offer-elem">
+          <img
+            src="https://dyma-images.s3.fr-par.scw.cloud/html-css/projects/project2/house-1.jpg"
+            alt="house-1"
+            class="offer-elem-img"
+          />
+          <div class="offer-elem-text">
+            <p>Appartement - Paris 75007</p>
+            <p>11 chambres 450 m2</p>
+            <div class="offer-separator"></div>
+            <p>3 900 000 € - $4 200 000</p>
+          </div>
+        </li>
+        <li class="offer-elem">
+          <img
+            src="https://dyma-images.s3.fr-par.scw.cloud/html-css/projects/project2/house-2.jpg"
+            alt="house-2"
+            class="offer-elem-img"
+          />
+          <div class="offer-elem-text">
+            <p>Appartement - Paris 75001</p>
+            <p>5 chambres 233 m2</p>
+            <div class="offer-separator"></div>
+            <p>3 900 000 € - $4 200 000</p>
+          </div>
+        </li>
+        <li class="offer-elem">
+          <img
+            src="https://dyma-images.s3.fr-par.scw.cloud/html-css/projects/project2/house-3.jpg"
+            alt="house-3"
+            class="offer-elem-img"
+          />
+          <div class="offer-elem-text">
+            <p>Appartement - Paris 75001</p>
+            <p>5 chambres 233 m2</p>
+            <div class="offer-separator"></div>
+            <p>3 900 000 € - $4 200 000</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+<!-- ... -->
+
+Nous avons un élément section dans lequel nous plaçons un conteneur.
+
+Dans celui-ci nous avons un titre de niveau h2 ainsi qu'une liste non ordonnée pour afficher les dernières offres.
+
+Dans chaque list item nous avons une image et une div qui va contenir les textes relatifs à l'offre. 
+
+Modification de style.css
+
+Il nous faut maintenant nous occuper de la mise en page CSS, nous ajoutons les règles suivantes : 
+
+/* ... */
+body {
+  font-family: "Montserrat", sans-serif;
+  background: #eee;
+  color: #333;
+}
+/* ... */
+ul {
+  list-style: none;
+}
+/* ... */
+/* class  */
+.container {
+  display: block;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.title {
+  font-weight: 300;
+  font-size: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* ... */
+/* Offer */
+
+.offer {
+  padding: 10rem 1rem;
+}
+
+.offer-list {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.offer-elem {
+  border: 1px solid #ddd;
+  background: white;
+  margin: 1rem;
+  flex: 1;
+}
+
+.offer-elem-img {
+  width: 100%;
+}
+
+.offer-elem-text {
+  padding: 2rem;
+  text-align: center;
+}
+
+.offer-separator {
+  margin: 1rem auto;
+  height: 2px;
+  width: 50px;
+  background: #333;
+}
+
+Expliquons les principales nouvelles règles que nous avons ajoutées.
+
+.offer {
+    padding: 10rem 1rem;
+}
+
+Nous mettons un remplissage en haut et en bas de la section très important (160px par défaut).
+
+Nous mettons un peu de remplissage des côté gauche et droit. 
+
+.offer-list {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+Pour notre liste non ordonnée, nous en faisons un conteneur flexible avec une direction row pour mettre les différentes offres en ligne.
+
+Nous empêchons les offres d'aller à la ligne avec nowrap.
+
+Nous mettons l'espace disponible entre les éléments flexibles. 
+
+.offer-elem {
+    border: 1px solid #ddd;
+    background: white;
+    margin: 1rem;
+    flex: 1;
+
+}
+
+Pour les offres nous utilisons flex: 1 ce qui équivaut à flex: 1 1 0.
+
+Ce qui nous intéresse ici est à la fois d'avoir flex-basis à 0 et non pas à auto et d'avoir flex-grow à 1 et non pas à 0.
+
+Les explications suivantes sont importantes, donc concentrez-vous !
+
+flex-basis s'applique toujours en premier, il respecte toutes les règles de taille fixées (par exemple avec min-width). Ici avec la valeur 0, la largeur de l'élément sera la plus petite possible par rapport à son contenu. 
+
+Son contenu est d'abord une image mais sa largeur est fixée à 100% de la largeur de son parent, donc elle ne rentre pas en compte dans le calcul de la largeur. Elle fera la même largeur que son parent. 
+
+Son contenu est ensuite une div offer-elem-text qui n'a pas de largeur définie, seulement du remplissage. Donc ici seuls les 2 rem de chaque côté du contenu (32px en tout par défaut) vont compter dans la largeur. 
+
+Il faut ensuite regarder le contenu de la div qui est composé de plusieurs paragraphes. Sa largeur sera donc la largeur du plus long mot qui peut s'écrire sur une ligne, ici "Appartement".
+
+La taille des li est donc la taille du mot "Appartement" plus 32px. 
+
+Ensuite, nous appliquons flex-grow qui va répartir l'espace disponible à parts égales entre les trois éléments flexibles li.
+
+Plus la largeur de la zone d'affichage sera importante, plus les éléments seront donc larges. 
+
+Mise en place de la troisième partie
+Modification de l'index.html
+
+Commençons par la structure HTML en ajoutant une nouvelle section à la suite des deux premières : 
+
+<!-- ... -->
+<section class="who">
+    <div class="who-content-img">
+      <img
+        src="https://dyma-images.s3.fr-par.scw.cloud/html-css/projects/project2/team.jpg"
+        alt="team"
+      />
+    </div>
+  
+    <div class="who-content-text bg-dark">
+      <h2>
+        Une équipe de <strong>professionnels</strong> avec plus de 10 ans
+        d'expérience
+      </h2>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae
+        aliquam commodi expedita exercitationem recusandae minima blanditiis
+        facilis et, distinctio voluptatibus laborum itaque voluptate vel
+        earum ipsum totam dolorum veniam. Iusto repellat labore quisquam
+        dicta ad doloribus inventore corrupti voluptas eligendi cupiditate
+        at assumenda vitae, facere provident, deserunt beatae, consequuntur
+        officiis?
+      </p>
+    </div>
+  </section>
+<!-- ... -->
+
+Nous avons deux éléments enfants pour notre section : une première div qui contient l'image et une seconde pour le contenu.
+
+Dans la div contenant les textes nous avons simplement un titre de niveau h2 et un paragraphe.
+Modification de style.css
+  
+Il nous faut maintenant nous occuper de la mise en page CSS :
+
+/* ... */
+/* class  */
+/* ... */
+.bg-dark {
+  background: #333;
+  color: white;
+}
+/* ... */
+/* who */
+
+.who {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.who-content-img {
+  flex: 1;
+}
+.who-content-img img {
+  width: 100%;
+}
+
+.who-content-text {
+  flex: 1;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.who-content-text h2 {
+  margin-bottom: 2rem;
+}
+
+.who-content-text p {
+  font-size: 1.3rem;
+  line-height: 1.8rem;
+}
+
+Nous allons expliquer les règles les plus importantes.
+
+Nous faisons de notre section un conteneur flexible avec une direction row et en empêchant les éléments flexibles d'aller à la ligne. 
+
+.who-content-img {
+    flex: 1;
+  }
+  
+  .who-content-img img {
+    width: 100%;
+}
+
+Pour le conteneur de l'image nous avons un flex: 1 1 0.
+
+Le conteneur de l'image pourra donc grossir si la zone d'affichage est suffisamment large. L'image prend 100% la largeur de son parent et occupera donc toute la largeur disponible. 
+
+Nous verrons dans les prochaines leçons comment corriger l'affichage qui ne rend pas bien sur les petits écrans et sur mobile. 
+
+.who-content-text {
+    flex: 1;
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.who-content-text {
+    flex: 1;
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+Pour la div qui contient nos textes, nous en faisons un conteneur flexible avec une direction column.
+
+Nous centrons les éléments sur l'axe principal vertical avec justify-content. 
+
+Nous donnons au conteneur la taille de son contenu et lui donnons la possibilité de s'agrandir avec flex: 1. 
+
+
+Mise en place de la partie avis
+Modification de l'index.html
+
+Commençons par la structure HTML en ajoutant une nouvelle section à la suite des premières pour afficher les témoignage : 
+
+<!-- ... -->
+<section class="testimonials">
+  <div class="container">
+    <div class="testimonials-content">
+      <h2 class="title">Voici ce qu'ils pensent de nous</h2>
+      <div class="testimonials-elem">
+        <div class="testimonials-elem-text">
+          <p>
+            <i class="fa-solid fa-quote-left"></i>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+            Velit, aperiam.
+            <i class="fa-solid fa-quote-right"></i>
+          </p>
+        </div>
+        <div class="testimonials-elem-profil">
+          <img
+            src="https://dyma-images.s3.fr-par.scw.cloud/html-css/projects/project2/person-3.jpg"
+            alt="person-1"
+          />
+          <p>Jean Dupont</p>
+          <em>CEO étoile</em>
+        </div>
+      </div>
+      <div>
+        <div class="testimonials-elem-profil">
+          <img
+            src="https://dyma-images.s3.fr-par.scw.cloud/html-css/projects/project2/person-2.jpg"
+            alt="person-2"
+          />
+          <p>Arthur Lac</p>
+          <em>Développeur Web</em>
+        </div>
+        <div class="testimonials-elem-text">
+          <p>
+            <i class="fa-solid fa-quote-left"></i>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+            Recusandae illo quam saepe veritatis omnis quaerat ullam
+            animi. Alias excepturi velit maiores, adipisci incidunt labore
+            voluptatum quod, autem, architecto cupiditate id tempore
+            soluta ullam quia recusandae? Culpa, eius, voluptates corrupti
+            deleniti incidunt omnis error nulla perferendis blanditiis
+            quasi, perspiciatis iure vel?
+            <i class="fa-solid fa-quote-right"></i>
+          </p>
+        </div>
+      </div>
+      <div class="testimonials-elem">
+        <div class="testimonials-elem-text">
+          <p>
+            <i class="fa-solid fa-quote-left"></i>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam
+            exercitationem aut, reiciendis dolor, dolorem eius animi atque
+            maxime deleniti distinctio ex inventore rem cupiditate nostrum
+            a omnis, illum quasi delectus.
+            <i class="fa-solid fa-quote-right"></i>
+          </p>
+        </div>
+        <div class="testimonials-elem-profil">
+          <img
+            src="https://dyma-images.s3.fr-par.scw.cloud/html-css/projects/project2/person-1.jpg"
+            alt="person-3"
+          />
+          <p>Julie Roux</p>
+          <em>Développeuse Web</em>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ... -->
+
+Dans notre nouvelle section, nous avons un conteneur dans lequel nous plaçons trois témoignages.
+
+Chaque témoignage est dans une div qui a deux enfants : un titre de niveau h2 et une div contenant le témoignage, l'image et le nom.
+
+Nous utilisons des icônes Font Awesome avant et après chaque texte des témoignages. 
+
+Modification de style.css
+
+Il nous faut maintenant nous occuper de la mise en page CSS : 
+
+/* ... */
+em {
+  color: #555;
+}
+/* ... */
+/* testimonials */
+
+.testimonials {
+  padding: 5rem 1rem;
+}
+
+.testimonials-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.testimonials-elem {
+  flex: 1;
+  background: white;
+  border-radius: 5px;
+  padding: 2rem;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.testimonials-elem-text {
+  padding: 0 2rem;
+}
+.testimonials-elem-text p i {
+  margin: 0.2rem;
+}
+
+.testimonials-elem-profil p {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.testimonials-elem-profil img {
+  width: 50px;
+  border-radius: 50px;
+  margin-bottom: 0.5rem;
+}
+
+Nous allons expliquer brièvement les principales classes :
+
+.testimonials-content {
+  display: flex;
+  flex-direction: column;
+}
+
+Ici, pour le conteneur nous le rendons flexibles et nous fixons la direction à column car nous voulons que les témoignages soient l'un au dessus de l'autre. 
+
+.testimonials-elem {
+  flex: 1;
+  background: white;
+  border-radius: 5px;
+  padding: 2rem;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+Pour chaque témoignage, nous utilisons flex: 1 pour donner la possibilité aux éléments de s'élargir suivant la place disponible sur l'axe principal vertical du point de vue de l'élément testimonials-elem.
+
+Nous en faisons également un conteneur flexible de direction row. 
+
+Nous utilisons justify-content: space-between; afin que l'espace sur l'axe principal horizontal disponible soit placé entre l'élément testimonials-elem-profil et l'élément testimonials-elem-text.
+
+Nous utilisons align-items: center; pour centrer les deux éléments sur l'axe secondaire vertical. 
+
+
+Mise en place de la section contact et du footer
+Modification de l'index.html
+
+Commençons par la structure HTML en ajoutant une nouvelle section à la suite des premières pour afficher un formulaire de contact et le footer :
+
+<!-- ... -->
+<section class="contact bg-dark">
+  <form action="#" class="contact-form">
+    <h2 class="title">Pour nous <strong>contacter</strong></h2>
+    <input type="text" placeholder="Nom" name="name" id="name" />
+    <input type="email" placeholder="Email" name="email" id="email" />
+    <input
+      type="text"
+      placeholder="Votre message ..."
+      name="message"
+      id="message"
+    />
+    <div>
+      <button>Soumettre</button>
+    </div>
+  </form>
+</section>
+<footer>
+  <p>Copyright © 2021 Dyma, Inc.</p>
+</footer>
+<!--  -->
+
+
+Nous ajoutons une section cans laquelle nous plaçons un form qui va contenir un titre h2 et trois champs input.
+
+Nous avons ensuite un bouton pour soumettre le formulaire.
+
+Enfin, nous avons une partie footer pour notre pied de page.
+Modification de style.css
+
+Il nous faut maintenant nous occuper de la mise en page CSS : 
+
+
+
+/* ... */
+/* contact */
+
+.contact {
+  padding: 10rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact-form {
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.contact-form input {
+  background: #333;
+  border: 0;
+  border-bottom: 1px solid #555;
+  padding: 1rem;
+  font-size: 1.3rem;
+  color: white;
+  outline: 0;
+  margin-bottom: 1rem;
+}
+
+.contact-form button {
+  display: block;
+  margin: 3rem auto;
+  padding: 1rem 2rem;
+  border: 0;
+  border-radius: 30px;
+  background: #f1c40f;
+  color: white;
+  font-weight: 700;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.contact-form button:hover {
+  background: red;
+}
+
+/* footer */
+
+footer {
+  background: #444;
+  padding: 5rem 1rem;
+  color: white;
+  text-align: center;
+}
+
+footer p {
+  margin-bottom: 0;
+}
+
+Nous allons étudier les principales classes.
+
+.contact {
+  padding: 10rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+Ici nous faisons de notre élément form un conteneur flexible de direction column et nous centrons les éléments sur l'axe secondaire horizontal avec align-items: center;. 
+
+.contact-form {
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+}
+
+Cet élément est centré horizontalement par son conteneur flexible. Nous lui donnons une largeur maximale de 600px et nous en faisons également un conteneur flexible de direction column.
+
+Nous lui donnons une taille de 100% de la largeur de son parent et il s'étendra donc jusqu'à un maximum de 600px. 
+
+Question : comment faire pour obtenir le même comportement en utilisant uniquement les boites flexibles ?.
+
+Voici la réponse :
+
+.contact {
+  padding: 10rem 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.contact-form {
+  max-width: 600px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+C'est exactement le même effet mais dans un cas nous utilisons la faculté de la propriété flex-grow en fixant flex: 1 et en changeant la direction du conteneur flexible contact.
+
+Il est souvent possible d'obtenir les mêmes résultats de plusieurs façons, le plus important est de bien comprendre l'effet des propriétés CSS. 
+
+Les autres classes ne comportent que des règles de CSS basiques que nous avons déjà vues plusieurs fois
+
+Rendre la page responsive
+Modification de l'index.html
+
+Commençons par les modifications de la structure HTML pour pouvoir faire certaines adaptations pour les mobiles : 
+
+<!-- ... -->
+<ul>
+  <li><a href="#offer">Nos offres</a></li>
+  <li><a href="#team">Notre equipe</a></li>
+  <li><a href="#contact">Contact</a></li>
+</ul>
+<!-- ... -->
+<section id="offer" class="offer">
+<!-- ... --
+<section id="team" class="who">
+  <div class="who-content-img"></div>
+  <div class="who-content-text bg-dark">
+<!-- ... -->
+<div class="testimonials-elem testimonials-elem-reverse">
+  <div class="testimonials-elem-profil">
+    <img
+      src="https://dyma-images.s3.fr-par.scw.cloud/html-css/projects/project2/person-2.jpg"
+      alt="person-2"
+    />
+    <p>Arthur Lac</p>
+    <em>Développeur Web</em>
+  </div>
+<!-- ... -->
+<section id="contact" class="contact bg-dark">
+<!-- ... -->
+
+Nous créons tout d'abord des ancres qui permettent de créer des liens vers des endroits spécifiques d'une page.
+
+Pour ce faire, rien de plus simple, il suffit d'avoir un id sur les éléments que vous voulez cibler.
+
+Il suffit ensuite de passer à href l'id précédé par un #. 
+
+Nous ajoutons donc les id nécessaires sur les sections que nous voulons cibler puis nous créons les liens permettant d'y accéder.
+
+Ensuite, nous modifions l'image dans la partie who afin d'utiliser une div directement car nous avions un problème d'affichage sur mobile. Nous allons également devoir modifier quelques règles CSS.
+
+Enfin, nous ajoutons une classe testimonials-elem-reverse sur l'un des témoignages afin d'ajouter des règles spécifiques pour cet élément sur mobile.
+Modification de style.css
+
+Il nous faut maintenant nous occuper de la mise en page CSS : 
+
+/* ... */
+/* who */
+
+.who {
+  display: flex;
+  flex-flow: row nowrap;
+  min-height: 600px;
+}
+
+.who-content-img {
+  flex: 1;
+  background: url(https://dyma-images.s3.fr-par.scw.cloud/html-css/projects/project2/team.jpg)
+    center center/cover;
+}
+
+.who-content-text {
+  flex: 1;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+/* ... */
+
+Dans notre style nous allons simplement modifier un peu les règles pour utiliser l'image en arrière-plan dans la partie who et donner à cette partie une hauteur minimale.
+Modification de style.mobile.css
+
+Il nous faut maintenant nous occuper de la mise en page CSS pour les mobiles :
+
+/*  Requête média uniquement nécessaire sur l'éditeur en ligne : */
+
+@media (max-width: 500px) {
+  /* class */
+
+  .title {
+    text-align: center;
+  }
+
+  /* vp + header */
+
+  header {
+    flex-direction: column;
+  }
+
+  header ul {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  header ul li {
+    margin-top: 1.5rem;
+    padding: 0.5rem;
+    border-bottom: 1px dotted #ddd;
+  }
+
+  .vp-content h1 {
+    padding-top: 1rem;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .vp-content p {
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+
+  /* offer */
+
+  .offer {
+    padding: 5rem 1rem;
+    text-align: center;
+  }
+
+  .offer-list {
+    flex-direction: column;
+  }
+
+  /* who */
+
+  .who {
+    flex-direction: column-reverse;
+  }
+
+  .who-content-img {
+    min-height: 300px;
+  }
+
+  .who-content-text {
+    padding: 4rem 2rem;
+  }
+
+  /* testimonials */
+
+  .testimonials-elem {
+    flex-direction: column;
+  }
+
+  .testimonials-elem-reverse {
+    flex-direction: column-reverse;
+  }
+
+  .testimonials-elem-profil {
+    text-align: center;
+  }
+
+  .testimonials-elem-profil img {
+    display: block;
+    margin: 2rem auto;
+  }
+
+  /* contact */
+
+  .contact {
+    padding: 5rem 1rem;
+  }
+
+  .contact-form button {
+    margin: 3rem auto 0 auto;
+  }
+}
+
+Pas de difficultés particulières pour la partie mobile, nous nous contentons de passer certains conteneurs flexibles en direction column ou column-reverse pour s'adapter à la forme des écrans mobiles.
+
+Nous réduisons également certains remplissages, marges et tailles de police. 
+
